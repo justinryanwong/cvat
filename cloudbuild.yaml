@@ -1,0 +1,21 @@
+steps:
+# Build the Docker container image
+- id: 'Build Container Image'
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '--tag', '${_IMAGE}', '.']
+  env:
+      - 'DOCKER_BUILDKIT=1'
+
+# Push the Docker container image to Artifact Registry
+- id: 'Push Container Image to Artifact Registry'
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['push', '${_IMAGE}']
+
+images:
+- '${_IMAGE}'
+
+substitutions:
+  # Define the default image name using project ID, repository name, and short SHA of the commit
+  _IMAGE: 'us-central1-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/cvat:${SHORT_SHA}'
+  # Define the Artifact Registry repository name
+  _AR_REPO_NAME: 'github.com/cvat'
