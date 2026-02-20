@@ -13,7 +13,9 @@ steps:
 
 images:
 - '${_IMAGE}'
-
+options:
+  logging: CLOUD_LOGGING_ONLY
+  
 substitutions:
   # Define the default image name using project ID, repository name, and short SHA of the commit
   _IMAGE: 'us-central1-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/cvat:${SHORT_SHA}'
